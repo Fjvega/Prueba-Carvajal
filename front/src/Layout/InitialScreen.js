@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import '../CSS/layout.css'
 import Navbar from "../Components/navbar";
+import TabManager from "../Components/tabManager";
+import 'react-notifications/lib/notifications.css';
+import {NotificationContainer, NotificationManager} from 'react-notifications';
 
 class InitialScreen extends Component {
   constructor(props) {
@@ -35,9 +38,10 @@ class InitialScreen extends Component {
 
                   </div>
                   <div className="option_container">
-                      
+                      <TabManager></TabManager>
                   </div>
               </div>
+              <NotificationContainer/>
           </div>
     )
   }

@@ -1,0 +1,64 @@
+
+.add_container{
+    height: 80vh !important;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.add_card{
+    height: 60vh;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.description{
+    margin-top: 10% !important;
+}
+
+
+
+.category_container{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 5%;
+}
+.add_category
+{
+    width: 70% !important;
+
+}
+
+.add_category_button{
+    width: 25% !important;
+    margin-left: 5% !important;
+    height: 50% !important;
+}
+
+.chips_container{
+    margin-top: 10% !important;
+    display: flex !important;
+    justify-content: center !important;
+    flex-wrap:wrap !important;
+}
+
+.MuiChip-colorPrimary{
+    background-color: black !important;
+}
+.chip{
+    margin-left: 1% !important;
+    margin-top: 2% !important
+}
+
+.add_movie{
+    margin-top: 5% !important;
+    width: 100% !important;
+    background-color: darkgreen !important;
+    color: white !important;
+}

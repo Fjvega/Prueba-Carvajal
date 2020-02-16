@@ -34,7 +34,7 @@ Funcionamiento : Recibe un JSON con los parametros, primero hace una consulta a 
 para confirmar si no existe ninguna pelicula con el nombre enviado , si no existe ningún elemento
 con este nombre crea una nueva entrada a la base de datos
 
-Parametros : Se envian desde el body en un JSON {name : String ,description : String , category : String}
+Parametros : Se envian desde el body en un JSON {name : String ,description : String , category : String[]}
 
 
 Retorna : JSON  {state : String}
