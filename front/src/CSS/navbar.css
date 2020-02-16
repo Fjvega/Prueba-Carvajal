@@ -1,0 +1,25 @@
+.title_container{
+    width: 40%;
+    display: flex;
+    align-items: center;
+}
+
+.title_container h3{
+
+    font-family: 'Roboto', sans-serif;
+    color: white;
+
+}
+
+.icon_container{
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.icon_container img{
+    height: 50%;
+    margin-left: 0%;
+    margin-right: 2%;
+}
