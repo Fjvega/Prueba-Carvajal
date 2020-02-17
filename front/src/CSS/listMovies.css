@@ -7,6 +7,11 @@
     background-color: white;
 }
 
+
+.loader_container{
+    align-items: center;
+}
+
 .card_list_container{
     margin-top: -4%;
     height: 75vh;
@@ -70,6 +75,9 @@
     margin-bottom: 0;
     font-size: 1.4vh;
     font-family: 'Roboto', sans-serif !important;
+    line-height:1em;
+    height:7em;
+    overflow:hidden;
 
 }
 

@@ -26,8 +26,12 @@ class Navbar extends Component {
                  </h3>
              </div>
              <div className="icon_container">
-                    <img src="/github.svg"/>
+               <a href="https://github.com/Fjvega" target="_blank">
+                   <img src="/github.svg"/>
+               </a>
+               <a href="https://www.linkedin.com/in/francisco-vega-796004ba/" target="_blank">
                     <img src="/linkedin.svg"/>
+               </a>
              </div>
           </div>
     )

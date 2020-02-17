@@ -4,96 +4,63 @@ import 'react-tabs/style/react-tabs.css';
 import '../CSS/tabs.css'
 import CreateMovie from "./createMovie";
 import 'react-notifications/lib/notifications.css';
+import EditMovie from "./editMovie";
+import DeleteMovie from "./deleteMovie";
+import FilterMovie from "./filterMovie";
+
 class TabManager extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      category :[],
-      selectedCategory:[],
-      name:'',
-      description:'',
-      currentCategorySelected :'',
-      index:3
+     
     }
 
-   this.handleDeleteCategory = this.handleDeleteCategory.bind(this)
-   this.handleChange = this.handleChange.bind(this)
-   this.addCategory = this.addCategory.bind(this)
+
   }
 
 
-/*
-componentDidMount(){
 
-  var url = 'http://localhost:5000/movies/getGenres';
-  const that = this;
-  
-  fetch(url, {
-    method: 'GET', // or 'PUT'
-    headers:{
-      'Content-Type': 'application/json'
-    }
-  }).then(res => res.json())
-  .catch(error => console.error('Error:', error))
-  .then(response => 
-    {
-    console.log('Success:', response)
-    that.setState({category: response.genres})
-    }
-    );
-
-}
-
-*/
-
-handleDeleteCategory(data){
-
-  let newCategory =this.state.selectedCategory.filter(function (category) {
-    return category !== data;
-});
-
-this.setState({selectedCategory:newCategory})
-
-}
-
-
-handleChange(event) {
-    
-  let nam = event.target.name;
-  let val = event.target.value;
-
-
-  this.setState({[nam]: val});
-  console.log(this.state)
-}
-
-
-addCategory(){
-  let newAdd = this.state.selectedCategory
-  newAdd.push(this.state.currentCategorySelected)
-  this.setState({selectedCategory:newAdd},console.log(this.state))
-}
   render() {
       return(
         <Tabs selectedIndex={this.props.index}>
         <TabList>
-          <Tab onClick={()=>this.props.changeIndex(0)}>Búsqueda</Tab>
-          <Tab onClick={()=>this.props.changeIndex(1)}>Agregar película</Tab>
-          <Tab onClick={()=>this.props.changeIndex(2)}>Editar película</Tab>
+          <Tab onClick={()=>this.props.changeIndex(0,'')}>Búsqueda</Tab>
+          <Tab onClick={()=>this.props.changeIndex(1,'')}>Agregar película</Tab>
+          <Tab  disabled={true}>Editar película</Tab>
           <Tab disabled={true}>Eliminar Película</Tab>
         </TabList>
         <TabPanel>
-           <h2>Filtro</h2>
+           <FilterMovie
+              filter={this.props.filter} 
+              reset={this.props.refresh}
+           
+           ></FilterMovie>
         </TabPanel>
         <TabPanel >
             <CreateMovie refresh={this.props.refresh} changePage={this.props.changePage}/>
         </TabPanel>
         <TabPanel>
-          <h2>Edit</h2>
+            <EditMovie 
+            name={this.props.name} 
+            description={this.props.description}
+            category ={this.props.category}
+            newCategory={this.props.newCategory}
+            handleChange={this.props.handleChange}
+            delete={this.props.deleteCategory}
+            add = {this.props.addCategory}
+            refresh={this.props.refresh}
+            >
+
+            </EditMovie>
         </TabPanel>
         <TabPanel>
-          <h2>Delete</h2>
+            <DeleteMovie
+            name={this.props.name}
+            refresh={this.props.refresh} 
+            >
+
+            </DeleteMovie>
         </TabPanel>
       </Tabs>
     )

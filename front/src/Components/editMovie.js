@@ -8,7 +8,7 @@ import { MenuItem } from "@material-ui/core";
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 import { IP } from "../Resources";
 
-class CreateMovie extends Component {
+class EditMovie extends Component {
   constructor(props) {
     super(props);
 
@@ -20,11 +20,10 @@ class CreateMovie extends Component {
       currentCategorySelected :''
     }
 
-   this.handleDeleteCategory = this.handleDeleteCategory.bind(this)
    this.handleChange = this.handleChange.bind(this)
-   this.addCategory = this.addCategory.bind(this)
-   this.addMovie= this.addMovie.bind(this)
+   this.updateMovie= this.updateMovie.bind(this)
   }
+
 
 /*
 
@@ -36,7 +35,6 @@ el cual tiene un archivo precargado con varios géneros
 
 
 */
-
 componentDidMount(){
   console.log("llegue al did mount del create")
   var url = IP+'/movies/getGenres';
@@ -59,82 +57,40 @@ componentDidMount(){
 }
 
 
-/*
-Parametros : (data : String)
-Funcionamiento : Recibe que categoría que se desea eliminar y recorre el array
-para crear uno nuevo isn esta, esto se almancena en el state selectedCategory
-*/
-handleDeleteCategory(data){
-
-  let newCategory =this.state.selectedCategory.filter(function (category) {
-    return category !== data;
-});
-
-this.setState({selectedCategory:newCategory})
-
-}
-
-/*
-
-Funcionamiento : Hace uso del nombre del elemento del form
-para asi cambiar su contraparte en el state
-*/
-
-handleChange(event) {
-    
-  let nam = event.target.name;
-  let val = event.target.value;
 
 
-  this.setState({[nam]: val});
-  console.log(this.state)
-}
 
 
-/*
-Funcionamiento : Revisa el array de categorías que esta en state.selectedCategory
-si state.currentCategorySelected se encuentra dentro de este array no sera agregada
-*/
-addCategory(){
 
-    if(this.state.selectedCategory.includes(this.state.currentCategorySelected))
-    {
-        NotificationManager.info('Ésta categoría ya fue seleccionada');
 
-    }else
-    {
-        let newAdd = this.state.selectedCategory
-        newAdd.push(this.state.currentCategorySelected)
-        this.setState({selectedCategory:newAdd},console.log(this.state))
-    }
-}
+
 
 /*
 
 
 Metodo: POST
 
-Funcionamiento : Revisa si los campos están vacíos, de no ser asi
-envía la informacion en el body como un JSON, si la respuesta es diferente
-de success la pelicula ya se encuentra en la db
+Funcionamiento : Verifica que los campos no esten vacios
+si los campos si contienen información envia una una petición
+al server, al recibir una respuesta exitosa usa props.refresh()
+para así recargar la lista de películas
 
 
 */
+updateMovie(){
 
-addMovie(){
-
-    if(this.state.selectedCategory.length=== 0 || this.state.name ==='' || this.state.description ==='')
+    if(this.props.category.length=== 0  || this.props.description ==='')
     {
         NotificationManager.info('Campos vacíos');
     }else
     {   
         let body=JSON.stringify({
-            name: this.state.name,
-            description: this.state.description,
-            category: this.state.selectedCategory
+            name: this.props.name,
+            description: this.props.description,
+            category: this.props.category
           })
        
-        var url = IP+'/movies/add';
+        var url = IP+'/movies/updateMovie';
         const that = this;
         
         fetch(url, {
@@ -151,17 +107,39 @@ addMovie(){
           console.log('Success:', response)
           if(response.state==="success")
           {
-            NotificationManager.success('Se agregó una película con éxito');
-            that.setState({name:'',description:'',selectedCategory:[ ],currentCategorySelected:''},that.props.refresh)
+            NotificationManager.success('Se editó una película con éxito');
+            that.props.refresh()
+            
+           
           }else{
-            NotificationManager.error('Ésta película ya existe');
+            NotificationManager.error('Error en el servidor');
           }
           
           }
           );
     }
 }
-  render() {
+
+
+
+/*
+
+Funcionamiento : Hace uso del nombre del elemento del form
+para asi cambiar su contraparte en el state
+*/
+handleChange(event) {
+    
+    let nam = event.target.name;
+    let val = event.target.value;
+  
+  
+    this.setState({[nam]: val});
+    console.log(this.state)
+  }
+
+
+
+render() {
       return(
 
             <div className="add_container">
@@ -170,8 +148,8 @@ addMovie(){
                          id="standard-basic" 
                          label="Nombre de la película" 
                          name="name"
-                         value={this.state.name}
-                         onChange={this.handleChange}
+                         value={this.props.name}
+                         disabled
                          />
 
                          <TextField
@@ -182,10 +160,10 @@ addMovie(){
                           rows="4"
                           defaultValue=" "
                           variant="outlined"
-                          name="description"
-                          value={this.state.description}
+                          name="currentSelectedMovieDescription"
+                          value={this.props.description }
                           defaultValue=""
-                          onChange={this.handleChange}
+                          onChange={this.props.handleChange}
                         />
                         <div className="category_container">
                               <TextField
@@ -194,10 +172,9 @@ addMovie(){
                               select
                               label="Categoría"
                               helperText="Seleccione una categoria correspondiente"
-                              name="currentCategorySelected"
-                              onChange={this.handleChange}
-                              value={this.state.currentCategorySelected || " "}
-                              onChange={this.handleChange}
+                              name="newCategory"
+                              onChange={this.props.handleChange}
+                              value={this.props.newCategory || " "}
                               >
                                         {this.state.category.map(value => (
                                           <MenuItem key={value} value={value}>
@@ -205,18 +182,18 @@ addMovie(){
                                           </MenuItem>
                                         ))}
                             </TextField>
-                            <Button className="add_category_button" variant="outlined" onClick={this.addCategory}>Agregar</Button>
+                            <Button className="add_category_button" variant="outlined" onClick={this.props.add} >Agregar</Button>
                         </div>
                         
                         <Paper className="chips_container" elevation={0}>
-                            {this.state.selectedCategory.map(data => {
+                            {this.props.category.map(data => {
 
 
                               return (
                                 <Chip
                                   key={data}
                                   label={data}
-                                  onDelete={()=>this.handleDeleteCategory(data)}
+                                  onDelete={()=>this.props.delete(data)}
                                   color="primary"
                                   className="chip"
                                 />
@@ -224,7 +201,7 @@ addMovie(){
                             })}
                         </Paper>
                         
-                        <Button className="add_movie" variant="contained" onClick={this.addMovie} >Agregar Película</Button>
+                        <Button className="add_movie" variant="contained" onClick={this.updateMovie} >Guardar Cambios</Button>
                 </div>
             </div>
  
@@ -232,4 +209,4 @@ addMovie(){
   }
 }
 
-export default CreateMovie;
+export default EditMovie;

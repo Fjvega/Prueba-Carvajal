@@ -5,6 +5,12 @@ import TabManager from "../Components/tabManager";
 import 'react-notifications/lib/notifications.css';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 import ListMovies from "../Components/listMovies";
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import grey from '@material-ui/core/colors/grey';
+import { IP } from "../Resources";
+
+
+
 
 class InitialScreen extends Component {
   constructor(props) {
@@ -14,37 +20,59 @@ class InitialScreen extends Component {
       index:0,
       currentPageIndex:1,
       pages:0,
-      list:[]
-    
+      list:[],
+      currentSelectedMovieName: null,
+      currentSelectedMovieDescription: null,
+      currentSelectedMovieCategory :null,
+      newCategory : null,
+      loader:false
     }
 
    this.changeIndex= this.changeIndex.bind(this)
    this.refreshList= this.refreshList.bind(this)
    this.changePage= this.changePage.bind(this)
+   this.handleChange= this.handleChange.bind(this)
+   this.handleDeleteCategory= this.handleDeleteCategory.bind(this)
+   this.addCategory= this.addCategory.bind(this)
+   this.filterList = this.filterList.bind(this)
   }
 
-
-  changeIndex(data)
+  
+ theme = createMuiTheme({
+  palette: {
+    primary: grey,
+  }
+});
+  /*Cambia la pestaña donde estan las opciones de CRUD */
+  changeIndex(data,currentSelectedMovie)
   {
-    this.setState({index:data})
+    if(currentSelectedMovie==='')
+    {
+      this.setState({index:data})
+    }else
+      {
+          let temporal = new Array(currentSelectedMovie.category.length)
+          temporal = currentSelectedMovie.category.map(function(item){
+            return(item)
+          })
+        this.setState({index:data,
+          currentSelectedMovieDescription:currentSelectedMovie.description,
+          currentSelectedMovieName:currentSelectedMovie.name,
+          currentSelectedMovieCategory:temporal
+        })
+
+    }
   }
-  handleChange(event) {
-    
-    let nam = event.target.name;
-    let val = event.target.value;
 
 
-    this.setState({[nam]: val});
-    console.log(this.state)
-  }
 
 
   refreshList()
   {
     console.log("llegue al refresh")
-    var url = 'http://localhost:5000/movies/getMovies/none/none';
+    var url = IP+'/movies/getMovies/none/none';
     const that = this;
-    
+    this.setState({loader:true})
     fetch(url, {
       method: 'GET', // or 'PUT'
       headers:{
@@ -56,12 +84,13 @@ class InitialScreen extends Component {
       {
         console.log('Success:', response)
         let pages= Math.ceil(response.movies.length/4)
-        that.setState({list: response.movies,pages:pages})
+        that.setState({list: response.movies,pages:pages,index:0},that.setState({loader:false}))
       }
       );
   
   }
 
+  /*Cambia la paginacion de la lista */
   changePage(event,value)
   {
     console.log(value)
@@ -69,11 +98,122 @@ class InitialScreen extends Component {
   
   }
 
+
+
+  /* Inicio Metodos que manejan la edicion de la pelicula */
+  
+  
+  handleChange(event) {
+    
+    let nam = event.target.name;
+    let val = event.target.value;
+  
+  
+    this.setState({[nam]: val});
+    console.log(this.state)
+  }
+
+  handleDeleteCategory(data){
+
+    let newCategory =this.state.currentSelectedMovieCategory.filter(function (category) {
+      return category !== data;
+  });
+  
+  this.setState({currentSelectedMovieCategory:newCategory})
+  
+  }
+
+  addCategory(){
+
+    if(this.state.currentSelectedMovieCategory.includes(this.state.newCategory))
+    {
+        NotificationManager.info('Ésta categoría ya fue seleccionada');
+
+    }else
+    {
+        let newAdd = this.state.currentSelectedMovieCategory
+        newAdd.push(this.state.newCategory)
+        this.setState({selectedCategory:newAdd},console.log(this.state))
+    }
+}
+
+
+/* Fin Metodos que manejan la edicion de la pelicula */
+
+
+
+/*
+Metodo: GET
+
+Funcionamiento : Envia una peticion con los parametros por url de 
+/name/category, para realizar un filtro, se puede filtrar tanto solo
+por nombre o categoría , 
+
+
+*/
+filterList(name,category)
+{
+  console.log("llegue al Filter")
+  if(category==='' && name  ==='')
+  {
+      NotificationManager.info('Campos vacíos');
+  }else
+  {   
+
+    if(category==='')
+    {
+      var url = IP+'/movies/getMovies/'+name+'/none';
+     
+    }else
+    {
+      if(name==='')
+      {
+        var url = IP+'/movies/getMovies/none/'+category;
+      }else
+      {
+        var url = IP+'/movies/getMovies/none/none';
+      }
+    }
+
+    this.setState({loader:true})
+    const that = this;
+  
+    fetch(url, {
+      method: 'GET', // or 'PUT'
+      headers:{
+        'Content-Type': 'application/json'
+      }
+    }).then(res => res.json())
+    .catch(error => console.error('Error:', error))
+    .then(response => 
+      {
+        console.log('Success:', response)
+        let pages= Math.ceil(response.movies.length/4)
+        that.setState({list: response.movies,pages:pages,index:0},that.setState({loader:false}))
+      }
+      );
+  }
+
+
+}
+
+
+
+/*
+Metodo: GET
+
+Funcionamiento : Envia una peticion con los parametros por url de 
+/none/none, siendo el primer parametro el nombre , el segundo la categoría
+/none/none es por default cargar todas las películas
+
+
+*/
+
   componentDidMount()
   {
-    var url = 'http://localhost:5000/movies/getMovies/none/none';
+    var url = IP+'/movies/getMovies/none/none';
     const that = this;
-    
+    this.setState({loader:true})
     fetch(url, {
       method: 'GET', // or 'PUT'
       headers:{
@@ -85,7 +225,7 @@ class InitialScreen extends Component {
       {
       console.log('Success:', response)
       let pages= Math.ceil(response.movies.length/4)
-      that.setState({list: response.movies,pages:pages})
+      that.setState({list: response.movies,pages:pages},that.setState({loader:false}))
       }
       );
   }
@@ -93,19 +233,40 @@ class InitialScreen extends Component {
   render() {
       return(
           <div className="app_container">
+              <ThemeProvider theme={this.theme}>       
               <Navbar></Navbar>
               <div className="view_container">
                   <div className="list_container">
-                    <ListMovies changeIndex={this.changeIndex}  
+                    <ListMovies 
+                    changeIndex={this.changeIndex}  
                     pages={this.state.pages} 
                     currentPageIndex={this.state.currentPageIndex} 
                     changePage={this.changePage} 
-                    list={this.state.list}/>
+                    list={this.state.list}
+                    loader ={this.state.loader}
+                    />
+                    
                   </div>
                   <div className="option_container">
-                      <TabManager index={this.state.index} changeIndex={this.changeIndex} refresh={this.refreshList} ></TabManager>
+                      <TabManager 
+                      index={this.state.index} 
+                      changeIndex={this.changeIndex} 
+                      refresh={this.refreshList} 
+                      name={this.state.currentSelectedMovieName}
+                      description={this.state.currentSelectedMovieDescription}
+                      category={this.state.currentSelectedMovieCategory}
+                      newCategory={this.state.newCategory}
+                      handleChange= {this.handleChange}
+                      deleteCategory={this.handleDeleteCategory}
+                      addCategory={this.addCategory}
+                      filter={this.filterList}
+                    
+                      >
+                     
+                      </TabManager>
                   </div>
               </div>
+              </ThemeProvider>
               <NotificationContainer/>
           </div>
     )

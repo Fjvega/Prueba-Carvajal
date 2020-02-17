@@ -3,6 +3,10 @@ import '../CSS/listMovies.css'
 import 'react-notifications/lib/notifications.css';
 import Pagination from '@material-ui/lab/Pagination';
 import Chip from '@material-ui/core/Chip';
+import Fade from 'react-reveal/Fade';
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import Loader from 'react-loader-spinner'
+import { IP } from "../Resources";
 
 class ListMovies extends Component {
   constructor(props) {
@@ -10,13 +14,22 @@ class ListMovies extends Component {
 
     this.state = {
       list:[],
-      pages:0
+      pages:0,
     }
 
     this.createList = this.createList.bind(this)
 
   }
 
+/*
+
+Parametro : currentPageIndex : Number 
+Funcionamiento : Dependiendo que pagina este siendo cargada,
+se hace un offset para cargar los elementos correspondientes
+a la pagina seleccionada
+
+
+*/
   createList(currentPageIndex)
   {
     if(this.props.list.length >0)
@@ -59,17 +72,20 @@ class ListMovies extends Component {
                                     })}
                               </div>
                               <div className="icon_column_actions">
-                                  <img src="/edit.svg" onClick={()=> that.props.changeIndex(2)}/>
-                                  <img src="/delete.svg" onClick={()=> that.props.changeIndex(3)}/>
+                                  <img src="/edit.svg" onClick={()=> that.props.changeIndex(2,object)}/>
+                                  <img src="/delete.svg" onClick={()=> that.props.changeIndex(3,object)}/>
                               </div>
         </li>
       )
       })
       
       return(
-      <ul>
-          {list}
-      </ul>)
+        <Fade Slide>
+            <ul>
+                {list}
+            </ul>
+        </Fade>
+)
 
     }
 
@@ -79,21 +95,38 @@ class ListMovies extends Component {
 
 
 
-  componentDidMount(){
 
-  
-  }
 
   render() {
-      return(
-            <div className="element_list_container">
-                <div className="card_list_container" >
-                    {this.createList(this.props.currentPageIndex)}
-                </div>
-                <Pagination count={this.props.pages} page={this.props.currentPageIndex} onChange={this.props.changePage}  />
-            </div>
-           
-    )
+
+      if(this.props.loader===true)
+      {
+        return(
+          <div className="element_list_container loader_container">
+                    <Loader
+                    type="Grid"
+                    color="#000000"
+                    height={100}
+                    width={100}
+
+                  />
+          </div>
+        )
+      }else
+      {
+
+        return(
+          <div className="element_list_container">
+              <div className="card_list_container" >
+                  {this.createList(this.props.currentPageIndex)}
+              </div>
+              <Pagination count={this.props.pages} page={this.props.currentPageIndex} onChange={this.props.changePage}  />
+          </div>
+         
+  )
+
+      }
+
   }
 }
 

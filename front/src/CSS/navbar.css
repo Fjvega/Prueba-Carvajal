@@ -18,7 +18,15 @@
     justify-content: flex-end;
 }
 
-.icon_container img{
+.icon_container a {
+    height: 6vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 1%;
+
+}
+.icon_container a img{
     height: 50%;
     margin-left: 0%;
     margin-right: 2%;

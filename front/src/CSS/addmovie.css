@@ -35,6 +35,11 @@
 
 }
 
+.add_category_filter
+{
+    width: 100% !important;
+
+}
 .add_category_button{
     width: 25% !important;
     margin-left: 5% !important;
@@ -55,10 +60,23 @@
     margin-left: 1% !important;
     margin-top: 2% !important
 }
+.MuiChip-label{
+    color: white !important;
+}
+.MuiChip-deleteIconColorPrimary{
+    color: white !important;
+}
 
 .add_movie{
     margin-top: 5% !important;
     width: 100% !important;
     background-color: darkgreen !important;
+    color: white !important;
+}
+
+.reset_filter{
+    margin-top: 5% !important;
+    width: 100% !important;
+    background-color: red !important;
     color: white !important;
 }
