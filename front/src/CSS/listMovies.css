@@ -1,0 +1,91 @@
+.element_list_container {
+    height: 80vh;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center !important;
+    background-color: white;
+}
+
+.card_list_container{
+    margin-top: -4%;
+    height: 75vh;
+    background-color: white;
+}
+
+.card_list_container ul{
+    list-style: none;
+    margin-left: 0% !important;
+    padding-left: 0;
+    margin-top: 0%;
+    padding: 0 0 0 0;
+}
+
+.card_list_container ul li{
+    height: 17vh;
+    background-color: #F8F8F8;
+    display: flex;
+    flex-direction: row;
+    border-style: solid;
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    border-width: 1px;
+    margin-bottom: 3px;
+    border-color: gray;
+
+}
+
+.icon_column{
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.icon_column h2{
+    font-family: 'Roboto', sans-serif !important;
+    margin-top: 0;
+    margin-bottom: 8px;
+    font-size: 2.2vh;
+}
+
+.icon_column img{
+    width: 35%;
+}
+
+.paragraph_column{
+    width: 60%;
+
+}
+
+.chip_list{
+    margin-left: 1% !important;
+    margin-top: 1% !important;
+}
+
+.paragraph_column p{
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 1.4vh;
+    font-family: 'Roboto', sans-serif !important;
+
+}
+
+.icon_column_actions{
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+.icon_column_actions img{
+    width: 16%;
+    margin-left: 5%;
+}
+.MuiPagination-ul{
+    justify-content: center !important ;
+    background-color: white;
+}

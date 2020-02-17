@@ -1,6 +1,12 @@
 .react-tabs{
     width: 100% !important;
     font-family: 'Roboto', sans-serif !important;
+    border-left: 1px;
+    border-color: lightgray;
+    border-style: solid;
+    border-top: 0px;
+    border-right: 0px;
+    border-bottom: 0px;
 }
 
 

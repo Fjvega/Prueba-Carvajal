@@ -227,7 +227,8 @@ router.get('/getMovies/:name/:category', function (req, res, next) {
           }
         });
     });
-  }
+  }else
+  {
 
 
 
@@ -300,7 +301,7 @@ router.get('/getMovies/:name/:category', function (req, res, next) {
   }
 
 
-
+  }
 
 })
 

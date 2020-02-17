@@ -28,7 +28,7 @@ class CreateMovie extends Component {
 
 
 componentDidMount(){
-
+  console.log("llegue al did mount del create")
   var url = 'http://localhost:5000/movies/getGenres';
   const that = this;
   
@@ -119,7 +119,7 @@ addMovie(){
           if(response.state==="success")
           {
             NotificationManager.success('Se agregó una película con éxito');
-            that.setState({name:'',description:'',selectedCategory:[ ],currentCategorySelected:''})
+            that.setState({name:'',description:'',selectedCategory:[ ],currentCategorySelected:''},that.props.refresh)
           }else{
             NotificationManager.error('Ésta película ya existe');
           }

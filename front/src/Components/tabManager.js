@@ -13,7 +13,8 @@ class TabManager extends Component {
       selectedCategory:[],
       name:'',
       description:'',
-      currentCategorySelected :''
+      currentCategorySelected :'',
+      index:3
     }
 
    this.handleDeleteCategory = this.handleDeleteCategory.bind(this)
@@ -22,7 +23,7 @@ class TabManager extends Component {
   }
 
 
-
+/*
 componentDidMount(){
 
   var url = 'http://localhost:5000/movies/getGenres';
@@ -44,7 +45,7 @@ componentDidMount(){
 
 }
 
-
+*/
 
 handleDeleteCategory(data){
 
@@ -75,17 +76,24 @@ addCategory(){
 }
   render() {
       return(
-        <Tabs>
+        <Tabs selectedIndex={this.props.index}>
         <TabList>
-          <Tab>Agregar película</Tab>
+          <Tab onClick={()=>this.props.changeIndex(0)}>Búsqueda</Tab>
+          <Tab onClick={()=>this.props.changeIndex(1)}>Agregar película</Tab>
+          <Tab onClick={()=>this.props.changeIndex(2)}>Editar película</Tab>
           <Tab disabled={true}>Eliminar Película</Tab>
         </TabList>
-     
         <TabPanel>
-            <CreateMovie/>
+           <h2>Filtro</h2>
+        </TabPanel>
+        <TabPanel >
+            <CreateMovie refresh={this.props.refresh} changePage={this.props.changePage}/>
         </TabPanel>
         <TabPanel>
-          <h2>Any content 2</h2>
+          <h2>Edit</h2>
+        </TabPanel>
+        <TabPanel>
+          <h2>Delete</h2>
         </TabPanel>
       </Tabs>
     )
