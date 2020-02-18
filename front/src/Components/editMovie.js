@@ -174,7 +174,7 @@ render() {
                               helperText="Seleccione una categoria correspondiente"
                               name="newCategory"
                               onChange={this.props.handleChange}
-                              value={this.props.newCategory || " "}
+                              value={this.props.newCategory || ""}
                               >
                                         {this.state.category.map(value => (
                                           <MenuItem key={value} value={value}>

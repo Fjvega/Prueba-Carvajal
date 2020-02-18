@@ -84,7 +84,7 @@ class InitialScreen extends Component {
       {
         console.log('Success:', response)
         let pages= Math.ceil(response.movies.length/4)
-        that.setState({list: response.movies,pages:pages,index:0},that.setState({loader:false}))
+        that.setState({list: response.movies,pages:pages,index:0},that.setState({loader:false,currentPageIndex:1}))
       }
       );
   
@@ -124,17 +124,22 @@ class InitialScreen extends Component {
   }
 
   addCategory(){
-
-    if(this.state.currentSelectedMovieCategory.includes(this.state.newCategory))
+      console.log(this.state.newCategory)
+    if(this.state.newCategory !== null)
     {
-        NotificationManager.info('Ésta categoría ya fue seleccionada');
+        if(this.state.currentSelectedMovieCategory.includes(this.state.newCategory))
+        {
+            NotificationManager.info('Ésta categoría ya fue seleccionada');
+    
+        }else
+        {
+            let newAdd = this.state.currentSelectedMovieCategory
+            newAdd.push(this.state.newCategory)
+            this.setState({selectedCategory:newAdd},console.log(this.state))
+        }
 
-    }else
-    {
-        let newAdd = this.state.currentSelectedMovieCategory
-        newAdd.push(this.state.newCategory)
-        this.setState({selectedCategory:newAdd},console.log(this.state))
     }
+
 }
 
 
@@ -153,14 +158,15 @@ por nombre o categoría ,
 */
 filterList(name,category)
 {
+  console.log(name+'/'+category)
   console.log("llegue al Filter")
-  if(category==='' && name  ==='')
+  if(category==="" && name  ==='')
   {
       NotificationManager.info('Campos vacíos');
   }else
   {   
 
-    if(category==='')
+    if(category==="" || null)
     {
       var url = IP+'/movies/getMovies/'+name+'/none';
      
@@ -171,7 +177,7 @@ filterList(name,category)
         var url = IP+'/movies/getMovies/none/'+category;
       }else
       {
-        var url = IP+'/movies/getMovies/none/none';
+        var url = IP+'/movies/getMovies/'+name+'/'+category;
       }
     }
 
@@ -189,7 +195,7 @@ filterList(name,category)
       {
         console.log('Success:', response)
         let pages= Math.ceil(response.movies.length/4)
-        that.setState({list: response.movies,pages:pages,index:0},that.setState({loader:false}))
+        that.setState({list: response.movies,pages:pages,index:0},that.setState({loader:false,currentPageIndex:1}))
       }
       );
   }

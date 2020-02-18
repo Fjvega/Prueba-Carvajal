@@ -97,6 +97,8 @@ si state.currentCategorySelected se encuentra dentro de este array no sera agreg
 */
 addCategory(){
 
+  if(this.state.currentCategorySelected!== "")
+  {
     if(this.state.selectedCategory.includes(this.state.currentCategorySelected))
     {
         NotificationManager.info('Ésta categoría ya fue seleccionada');
@@ -107,6 +109,7 @@ addCategory(){
         newAdd.push(this.state.currentCategorySelected)
         this.setState({selectedCategory:newAdd},console.log(this.state))
     }
+  }
 }
 
 /*
