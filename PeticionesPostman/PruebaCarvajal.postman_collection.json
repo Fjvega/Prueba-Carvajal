@@ -1,0 +1,188 @@
+{
+	"info": {
+		"_postman_id": "219df246-6324-4cd3-9361-e84653b4fe55",
+		"name": "PruebaCarvajal",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Obtener lista de películas",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "",
+						"name": "Content-Type",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Content-Type",
+						"value": "",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "35.223.179.80:5000/movies/getMovies/none/none",
+					"host": [
+						"35",
+						"223",
+						"179",
+						"80"
+					],
+					"port": "5000",
+					"path": [
+						"movies",
+						"getMovies",
+						"none",
+						"none"
+					]
+				},
+				"description": "Devuelve la lista de las películas,el primer parametro es el nombre de la película , el segundo es la categoría . Estas categorías son determinadas por el BackEnd y son enviadas al Front-End, un Ejemplo de categoría seria Drama "
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener Géneros",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "35.223.179.80:5000/movies/getGenres",
+					"host": [
+						"35",
+						"223",
+						"179",
+						"80"
+					],
+					"port": "5000",
+					"path": [
+						"movies",
+						"getGenres"
+					]
+				},
+				"description": "Obtiene un array con los géneros disponibles para realizar una busqueda valida en la base de datos"
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar película",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\":\"Busqueda Implacable\",\"description\":\"Un señor mayor le roban a la hija parte 2\", \"category\": [\"Drama\"]}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "35.223.179.80:3000/movies/updateMovie",
+					"host": [
+						"35",
+						"223",
+						"179",
+						"80"
+					],
+					"port": "3000",
+					"path": [
+						"movies",
+						"updateMovie"
+					]
+				},
+				"description": "Se actualiza una película dependiendo del nombre , la estructura del JSON que debe estar en el body es la siguiente :\n\n{\"name\":String,\"description\": String, \"category\": String []}"
+			},
+			"response": []
+		},
+		{
+			"name": "Agregar película",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\":\"La isla siniestra\",\"description\":\"Un señor que esta bien loco\", \"category\": \"Suspenso\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "35.223.179.80:3000/movies/add",
+					"host": [
+						"35",
+						"223",
+						"179",
+						"80"
+					],
+					"port": "3000",
+					"path": [
+						"movies",
+						"add"
+					]
+				},
+				"description": "Se crea una película dependiendo del nombre , la estructura del JSON que debe estar en el body es la siguiente :\n\n{\"name\":String,\"description\": String, \"category\": String []}"
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar película",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\":\"300\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "35.223.179.80:5000/movies/delete",
+					"host": [
+						"35",
+						"223",
+						"179",
+						"80"
+					],
+					"port": "5000",
+					"path": [
+						"movies",
+						"delete"
+					]
+				},
+				"description": "Se debe enviar en el body el siguiente JSON :\n{\"name\":String}"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
