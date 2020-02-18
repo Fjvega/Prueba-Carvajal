@@ -50,7 +50,7 @@ router.post("/add", function(req, res, next) {
 
   const responseServer= res;
   MongoClient.connect(uri, { useNewUrlParser: true }, function(err, db) {
-    if (err) throw err;
+    if (err) throw responseServer.send({ state: "down"});
     var dbo = db.db("carvajal");
     var myobj = { name : req.body['name'] , description : req.body['description'], category : req.body['category'] };
     const name = req.body['name']
@@ -108,9 +108,9 @@ router.post("/delete", function(req, res, next) {
   const responseServer= res;
   
   MongoClient.connect(uri, { useNewUrlParser: true }, function(err, db) {
-    if (err) throw err;
+    if (err) throw responseServer.send({ state: "down"});
     var dbo = db.db("carvajal");
-    dbo
+    
 
           var myobj = { name:req.body['name']};
           dbo.collection("movies").deleteOne(myobj, function(err, res) {
@@ -158,7 +158,7 @@ router.post("/updateMovie", function(req, res, next) {
   MongoClient.connect(uri, { useNewUrlParser: true }, function(err, db) {
     if (err) throw responseServer.send({ state: "down" });
     var dbo = db.db("carvajal");
-    dbo
+    
 
           var myobj = { name:name};
           dbo.collection("movies").update(myobj,{$set:{description:description,category:category}}, function(err, res) {
@@ -211,7 +211,7 @@ router.get('/getMovies/:name/:category', function (req, res, next) {
   if(category==='none' && name==='none')
   {
     MongoClient.connect(uri, { useNewUrlParser: true }, function(err, db) {
-      if (err) throw err;
+      if (err) throw responseServer.send({ state: "down"});
       var dbo = db.db("carvajal");
       dbo
         .collection("movies")
