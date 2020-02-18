@@ -162,7 +162,6 @@ router.post("/updateMovie", function(req, res, next) {
 
           var myobj = { name:name};
           dbo.collection("movies").update(myobj,{$set:{description:description,category:category}}, function(err, res) {
-            console.log(res)
             console.log("1 document inserted");
             db.close();
             responseServer.send({ state: "success" });
@@ -217,7 +216,6 @@ router.get('/getMovies/:name/:category', function (req, res, next) {
         .collection("movies")
         .find({})
         .toArray(function(err, res) {
-          console.log(res)
           if (err) throw responseServer.send({ state: "down" });
           db.close();
           if (res.length > 0) {
@@ -242,7 +240,6 @@ router.get('/getMovies/:name/:category', function (req, res, next) {
         .collection("movies")
         .find({ name: {'$regex' : name, '$options' : 'i'}})
         .toArray(function(err, res) {
-          console.log(res)
           if (err) throw responseServer.send({ state: "down" });
           db.close();
           if (res.length > 0) {
@@ -265,7 +262,6 @@ router.get('/getMovies/:name/:category', function (req, res, next) {
           .collection("movies")
           .find({ category: category })
           .toArray(function(err, res) {
-            console.log(res)
             if (err) throw responseServer.send({ state: "down" });
             db.close();
             if (res.length > 0) {
@@ -284,7 +280,6 @@ router.get('/getMovies/:name/:category', function (req, res, next) {
           .collection("movies")
           .find({ name: {'$regex' : name, '$options' : 'i'}, category: category })
           .toArray(function(err, res) {
-            console.log(res)
             if (err) throw responseServer.send({ state: "down" });
             db.close();
             if (res.length > 0) {

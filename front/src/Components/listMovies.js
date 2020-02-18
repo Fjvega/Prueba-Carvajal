@@ -87,6 +87,18 @@ a la pagina seleccionada
         </Fade>
 )
 
+    }else{
+
+      return(
+
+        <div className="element_list_container loader_container">
+            
+                <h3>No se encontraron resultados</h3>
+        </div>
+       
+       
+
+      )
     }
 
   }
@@ -114,7 +126,7 @@ a la pagina seleccionada
         )
       }else
       {
-
+        
         return(
           <div className="element_list_container">
               <div className="card_list_container" >
